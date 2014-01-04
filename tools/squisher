@@ -118,7 +118,7 @@ if [ -z "$CYANOGEN_NIGHTLY" ]; then
 	CMVERSION=`grep 'ro.ioap.version=' $REPACK/ota/system/build.prop | sed -e 's/ro.ioap.version=//g'`
 	ABIGEN=`grep 'ro.product.cpu.abi=' $REPACK/ota/system/build.prop | sed -e 's/ro.product.cpu.abi=//g'`
 	OUTFILE=$OUT/$CMVERSION.zip
-	echo -e ""; echo -e "${ppl}IOAP${bldylw}-by Infamous${txtrst}:${cya} $CMVERSION"${txtrst}; echo -e ""
+	echo -e ""; echo -e "${bldylw}IOAP - by Infamous${txtrst}:${cya} $CMVERSION"${txtrst}; echo -e ""
 else
 	OUTFILE=$OUT/update-squished.zip
 fi
@@ -149,27 +149,24 @@ img=`basename $OUTFILE`
 cd `dirname $OUTFILE`
 $MD5 $img >$img.md5sum
 ZIPSIZE=`ls -lah $OUTFILE | awk '{ print $5}'`
+
+echo -e ${bldylw}""
+echo -e "       ________  ___    ____    "
+echo -e "      /  _/ __ \/   |  / __ \   "
+echo -e "      / // / / / /| | / /_/ /   "
+echo -e "    _/ // /_/ / ___ |/ ____/    "
+echo -e "   /___/\____/_/  |_/_/         "
+echo -e "                                "
+echo -e "            KitKat              "
+echo -e ""${txtrst}
+echo -e ""
 echo -e ""; echo -e ${bldgrn}"Package complete:"${txtrst}
 echo -e ${cya}"ZIP:${ylw}  $img"${txtrst}
 echo -e ${cya}"MD5: ${ylw} `cat $img.md5sum | awk '{print $1}'`"${txtrst}
 echo -e ${cya}"SIZE:${ylw} $ZIPSIZE"${txtrst}
 MD5VAL=`cat $img.md5sum  | awk '{ print $1 }'`
 DEVICE=`echo -e $TARGET_PRODUCT | cut -d "_" -f 2`
-echo -e
-echo -e $CL_RED"       ________  ___    ____    "$CL_RST
-echo -e $CL_RED"      /  _/ __ \/   |  / __ \   "$CL_RST
-echo -e $CL_RED"      / // / / / /| | / /_/ /   "$CL_RST
-echo -e $CL_RED"    _/ // /_/ / ___ |/ ____/    "$CL_RST
-echo -e $CL_RED"   /___/\____/_/  |_/_/         "$CL_RST
-echo -e $CL_RED"                                "$CL_RST
-echo -e $CL_RED"             KitKat             "$CL_RST
-echo -e
-echo -e $CL_CYN"===========-Package complete-==========="$CL_RST
-echo -e $CL_CYN"zip:"$CL_MAG" $OUTFILE"$CL_RST
-echo -e $CL_CYN"md5:"$CL_MAG" $(cat $img.md5sum | awk '{ print $1 }')"$CL_RST
-echo -e $CL_CYN"size:"$CL_MAG" $ZIPSIZE"$CL_RST
-echo -e $CL_CYN"========================================"$CL_RST
-echo -e
+echo -e ""
 )
 
 exit 0

@@ -107,7 +107,8 @@ device="$1"
 eval $(grep "^CM_VERSION_" vendor/cm/config/common.mk | sed 's/ *//g')
 VERSION=
 
-echo -e ${cya}"Building ${ppl}IOAP ${bldylw} by Infamous"${txtrst}
+echo -e ${bldylw}"Building IOAP by Infamous"${txtrst}
+echo -e""
 
 if [ "$opt_clean" -ne 0 ]; then
     make clean >/dev/null
