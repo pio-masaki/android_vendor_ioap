@@ -161,7 +161,8 @@ echo -e $CL_RED"      /  _/ __ \/   |  / __ \   "$CL_RST
 echo -e $CL_RED"      / // / / / /| | / /_/ /   "$CL_RST
 echo -e $CL_RED"    _/ // /_/ / ___ |/ ____/    "$CL_RST
 echo -e $CL_RED"   /___/\____/_/  |_/_/         "$CL_RST
-echo -e $CL_RED"           KitKat               "$CL_RST
+echo -e $CL_RED"                                "$CL_RST
+echo -e $CL_RED"             KitKat             "$CL_RST
 echo -e
 echo -e $CL_CYN"===========-Package complete-==========="$CL_RST
 echo -e $CL_CYN"zip:"$CL_MAG" $OUTFILE"$CL_RST
