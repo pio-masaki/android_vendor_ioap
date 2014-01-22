@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export CM_BUILDTYPE=OFFICIAL
+
 export USE_CCACHE=1
 ./prebuilts/misc/linux-x86/ccache/ccache -M 50G
 
@@ -62,7 +64,7 @@ elif [ $RES = 0 ];then
     echo -e ${cya}"No External out, using default ($OUTDIR)"${txtrst}
     echo -e ""
 else
-    echo -e ""/home/mrimp/git/IOAP/android_vendor_ioap
+    echo -e ""
     echo -e ${red}"NULL"${txtrst}
     echo -e ${red}"Error wrong results; blame tyler"${txtrst}
     echo -e ""
@@ -111,7 +113,10 @@ eval $(grep "^CM_VERSION_" vendor/cm/config/common.mk | sed 's/ *//g')
 VERSION=
 
 echo -e ${bldylw}"Building IOAP by Infamous"${txtrst}
-echo -e""
+echo -e ""
+echo -e ${bldylw}"Looking for product dependencies${txtrst}"${cya}
+vendor/ioap/tools/getdependencies.py "$device"
+echo -e "${txtrst}"
 
 if [ "$opt_clean" -ne 0 ]; then
     make clean >/dev/null
@@ -200,6 +205,14 @@ t2=$($DATE +%s)
 
 tmin=$(( (t2-t1)/60 ))
 tsec=$(( (t2-t1)%60 ))
+
+echo -e ""
+echo -e ${bldblu}"Moving file to Build dir"${txtrst}
+mv -f $OUTDIR/target/product/$device/IOAP-OFFICIAL-*.zip /home/mrimp/Builds/IOAP/$device/
+echo -e ""
+echo -e ${bldblu}"Removing Build dir"${txtrst}
+rm -rf $OUTDIR/target/product/$device/
+
 
 echo -e ${bldgrn}"Total time elapsed:${txtrst} ${grn}$tmin minutes $tsec seconds"${txtrst}
 echo -e ""
