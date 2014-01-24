@@ -1,7 +1,5 @@
 #!/bin/bash
 
-export CM_BUILDTYPE=OFFICIAL
-
 export USE_CCACHE=1
 ./prebuilts/misc/linux-x86/ccache/ccache -M 50G
 
@@ -79,8 +77,6 @@ else
     CPUS=$(grep "^processor" /proc/cpuinfo | wc -l)
     DATE=date
 fi
-
-export USE_CCACHE=1
 
 opt_clean=0
 opt_dex=0
@@ -205,14 +201,6 @@ t2=$($DATE +%s)
 
 tmin=$(( (t2-t1)/60 ))
 tsec=$(( (t2-t1)%60 ))
-
-echo -e ""
-echo -e ${bldblu}"Moving file to Build dir"${txtrst}
-mv -f $OUTDIR/target/product/$device/IOAP-OFFICIAL-*.zip /home/mrimp/Builds/IOAP/$device/
-echo -e ""
-echo -e ${bldblu}"Removing Build dir"${txtrst}
-rm -rf $OUTDIR/target/product/$device/
-
 
 echo -e ${bldgrn}"Total time elapsed:${txtrst} ${grn}$tmin minutes $tsec seconds"${txtrst}
 echo -e ""
