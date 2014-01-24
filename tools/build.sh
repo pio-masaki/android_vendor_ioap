@@ -78,8 +78,6 @@ else
     DATE=date
 fi
 
-export USE_CCACHE=1
-
 opt_clean=0
 opt_dex=0
 opt_initlogo=0
