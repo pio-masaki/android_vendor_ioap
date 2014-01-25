@@ -11,14 +11,14 @@
     "account": "CyanogenMod",
     "repository": "android_device_samsung_n80xx-common",
     "target_path": "device/samsung/n80xx-common",
-    "revision": "cm-11.0"
+    "revision": "cm-10.2"
   },
   {
     "remote": "github",
     "account": "CyanogenMod",
     "repository": "android_device_samsung_n8000",
     "target_path": "device/samsung/n8000",
-    "revision": "cm-11.0"
+    "revision": "cm-10.2"
   },
   {
     "remote": "github",
