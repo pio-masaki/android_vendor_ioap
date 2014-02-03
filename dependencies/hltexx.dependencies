@@ -1,9 +1,9 @@
 [
   {
-    "account":      "CyanogenMod",
+    "account":      "MoKee",
     "repository":   "android_device_samsung_hlte-common",
     "target_path":  "device/samsung/hlte-common",
-    "revision":     "cm-11.0"
+    "account":      "MoKee",
   },
   {
     "account":      "CyanogenMod",
@@ -12,10 +12,10 @@
     "revision":     "cm-11.0"
   },
   {
-    "account":      "CyanogenMod",
+    "account":      "MoKee",
     "repository":   "android_device_samsung_hltexx",
     "target_path":  "device/samsung/hltexx",
-    "revision":     "cm-11.0"
+    "account":      "MoKee",
   },
   {
     "account":      "CyanogenMod",
@@ -30,10 +30,10 @@
     "revision":     "cm-11.0"
   },
   {
-    "account":      "CyanogenMod",
+    "account":      "MoKee",
     "repository":   "android_kernel_samsung_hlte",
     "target_path":  "kernel/samsung/hlte",
-    "revision":     "cm-11.0"
+    "account":      "MoKee",
   },
   {
     "account":      "CyanogenMod",
