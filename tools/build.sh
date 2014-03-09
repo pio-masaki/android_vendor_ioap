@@ -79,6 +79,22 @@ fi
 
 export USE_CCACHE=1
 
+# Logo
+echo -e ${bldylw}"                                                              "${txtrst}
+echo -e ${bldylw}"        .___        _____                                     "${txtrst}
+echo -e ${bldylw}"        |   | _____/ ____\____    _____   ____  __ __  ______ "${txtrst}
+echo -e ${bldylw}"        |   |/    \   __ \\__  \  /     \ /  _ \|  |  \/  ___/"${txtrst}
+echo -e ${bldylw}"        |   |   |  \  |   / __ \|  Y Y  (  <_> )  |  /\___ \  "${txtrst}
+echo -e ${bldylw}"        |___|___|  /__|  (____  /__|_|  /\____/|____//____  > "${txtrst}
+echo -e ${bldylw}"                 \/           \/      \/                  \/  "${txtrst}
+echo -e ${bldylw}"                                                              "${txtrst}
+echo -e ${bldylw}"                  .___________      _____ __________          "${txtrst}
+echo -e ${bldylw}"                  |   \_____  \    /  _  \\______   \         "${txtrst}
+echo -e ${bldylw}"                  |   |/   |   \  /  /_\  \|     ___/         "${txtrst}
+echo -e ${bldylw}"                  |   /    |    \/    |    \    |             "${txtrst}
+echo -e ${bldylw}"                  |___\_______  /\____|__  /____|             "${txtrst}
+echo -e ${bldylw}"                              \/         \/                   "${txtrst}
+
 opt_clean=0
 opt_dex=0
 opt_fetch=0
