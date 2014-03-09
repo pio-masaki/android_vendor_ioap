@@ -1,8 +1,5 @@
 #!/bin/bash
 
-export USE_CCACHE=1
-./prebuilts/misc/linux-x86/ccache/ccache -M 50G
-
 usage()
 {
     echo -e ""
@@ -12,16 +9,18 @@ usage()
     echo -e ${txtbld}"  Options:"${txtrst}
     echo -e "    -c  Clean before build"
     echo -e "    -d  Use dex optimizations"
+    echo -e "    -f  Fetch cherry-picks"
     echo -e "    -i  Static Initlogo"
     echo -e "    -j# Set jobs"
     echo -e "    -s  Sync before build"
     echo -e "    -p  Build using pipe"
     echo -e "    -o# Select GCC O Level"
     echo -e "        Valid O Levels are"
-    echo -e "        1 (Os), 3 (O3)"
+    echo -e "        1 (Os) or 3 (O3)"
+    echo -e "    -v  Verbose build output"
     echo -e ""
     echo -e ${txtbld}"  Example:"${txtrst}
-    echo -e "    ./build.sh -c jfltetmo"
+    echo -e "    ./build.sh -c jflte"
     echo -e ""
     exit 1
 }
@@ -59,7 +58,7 @@ if [ $RES = 1 ];then
 elif [ $RES = 0 ];then
     export OUTDIR=$DIR/out
     echo -e ""
-    echo -e ${cya}"No External out, using default ($OUTDIR)"${txtrst}
+    echo -e ${cya}"No external out, using default ($OUTDIR)"${txtrst}
     echo -e ""
 else
     echo -e ""
@@ -78,23 +77,29 @@ else
     DATE=date
 fi
 
+export USE_CCACHE=1
+
 opt_clean=0
 opt_dex=0
+opt_fetch=0
 opt_initlogo=0
 opt_jobs="$CPUS"
 opt_sync=0
 opt_pipe=0
 opt_olvl=0
+opt_verbose=0
 
-while getopts "cdij:pso:" opt; do
+while getopts "cdfij:pso:v" opt; do
     case "$opt" in
     c) opt_clean=1 ;;
     d) opt_dex=1 ;;
+    f) opt_fetch=1 ;;
     i) opt_initlogo=1 ;;
     j) opt_jobs="$OPTARG" ;;
     s) opt_sync=1 ;;
     p) opt_pipe=1 ;;
     o) opt_olvl="$OPTARG" ;;
+    v) opt_verbose=1 ;;
     *) usage
     esac
 done
@@ -105,10 +110,12 @@ fi
 device="$1"
 
 # get current version
-eval $(grep "^CM_VERSION_" vendor/cm/config/common.mk | sed 's/ *//g')
-VERSION=
+eval $(grep "^IOAP_VERSION_" vendor/ioap/config/ioap_common.mk | sed 's/ *//g')
+VERSION="$IOAP_VERSION_MAJOR.$IOAP_VERSION_MINOR.$IOAP_VERSION_MAINTENANCE"
 
-echo -e ${bldylw}"Building IOAP by Infamous"${txtrst}
+echo -e ${cya}"Building ${bldylw}IOAP v$VERSION"${txtrst}
+
+# Device dependencies
 echo -e ""
 echo -e ${bldylw}"Looking for product dependencies${txtrst}"${cya}
 vendor/ioap/tools/getdependencies.py "$device"
@@ -136,6 +143,11 @@ fi
 
 rm -f $OUTDIR/target/product/$device/obj/KERNEL_OBJ/.version
 
+# fetch cherry-picks
+if [ "$opt_fetch" -ne 0 ]; then
+        ./vendor/pac/tools/cherries.sh $device
+fi
+
 # get time of startup
 t1=$($DATE +%s)
 
@@ -156,7 +168,7 @@ fi
 # lunch device
 echo -e ""
 echo -e ${bldblu}"Lunching device"${txtrst}
-lunch "cm_$device-userdebug";
+lunch "ioap_$device-userdebug";
 
 echo -e ""
 echo -e ${bldblu}"Starting compilation"${txtrst}
@@ -173,12 +185,12 @@ fi
 if [ "$opt_olvl" -eq 1 ]; then
     export TARGET_USE_O_LEVEL_S=true
     echo -e ""
-    echo -e ${cya}"Using Os Optimization"${txtrst}
+    echo -e ${bldgrn}"Using Os Optimization"${txtrst}
     echo -e ""
 elif [ "$opt_olvl" -eq 3 ]; then
     export TARGET_USE_O_LEVEL_3=true
     echo -e ""
-    echo -e ${cya}"Using O3 Optimization"${txtrst}
+    echo -e ${bldgrn}"Using O3 Optimization"${txtrst}
     echo -e ""
 else
     echo -e ""
@@ -186,15 +198,19 @@ else
     echo -e ""
 fi
 
+if [ "$opt_verbose" -ne 0 ]; then
+make -j"$opt_jobs" showcommands bacon
+else
 make -j"$opt_jobs" bacon
+fi
 echo -e ""
 
 # squisher
 vendor/ioap/tools/squisher
 
 # cleanup unused built
-rm -f $OUTDIR/target/product/$device/CM-*.*
-rm -f $OUTDIR/target/product/$device/cm_*-ota*.zip
+rm -f $OUTDIR/target/product/$device/cm-*.*
+rm -f $OUTDIR/target/product/$device/ioap_*-ota*.zip
 
 # finished? get elapsed time
 t2=$($DATE +%s)

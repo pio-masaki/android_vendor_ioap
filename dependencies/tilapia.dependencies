@@ -6,6 +6,12 @@
         "revision":     "cm-11.0"
     },
     {
+        "account":      "CyanogenMod",
+        "repository": "android_device_asus_grouper",
+        "target_path": "device/asus/grouper",
+        "revision":     "cm-11.0"
+    },
+    {
         "account":      "Pinky-Inky-and-Clyde",
         "repository":   "proprietary_vendor_asus",
         "target_path":  "vendor/asus",
@@ -48,7 +54,7 @@
         "revision":     "cm-11.0"
     },
     {
-        "account":      "zyonee",
+        "account":      "CyanogenMod",
         "repository":   "android_kernel_asus_grouper",
         "target_path":  "kernel/asus/grouper",
         "revision":     "cm-11.0"

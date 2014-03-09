@@ -21,8 +21,8 @@ else
 fi
 
 if [ -z "$OUT" -o ! -d "$OUT" ]; then
-	echo -e ${red}"ERROR: $0 only works with a full build environment. $OUT should exist."${txtrst}
-	exit 1
+    echo -e ${red}"ERROR: $0 only works with a full build environment. $OUT should exist."${txtrst}
+    exit 1
 fi
 
 if [ "$TARGET_BUILD_TYPE" = "debug" ]; then
@@ -33,8 +33,8 @@ else
     OTAPACKAGE=$OUT/$TARGET_PRODUCT-ota-$TARGET_BUILD_VARIANT.$USER.zip
 fi
 if [ ! -f "$OTAPACKAGE" ]; then
-	echo -e ${red}"$OTAPACKAGE doesn't exist!"${txtrst};
-	exit 1
+    echo -e ${red}"$OTAPACKAGE doesn't exist!"${txtrst};
+    exit 1
 fi
 
 OPTICHARGER=$ANDROID_BUILD_TOP/vendor/ioap/tools/opticharger
@@ -42,52 +42,31 @@ QUIET=-q
 DELETE_BINS="applypatch applypatch_static check_prereq recovery updater"
 
 REPACK=$OUT/repack.d
-printf "Sanitizing environment..."
+echo -e ${bldcya}"Sanitizing environment..."${txtrst}
 rm -rf $REPACK
 mkdir -p $REPACK
-echo
 
 
 # Unpack the otapackage and opticharge all apks
 mkdir $REPACK/ota
 (
 cd $REPACK/ota
-printf "Unpacking $OTAPACKAGE..."
+echo -e ${bldgrn}"Unpacking${txtrst}: ${grn}$OTAPACKAGE..."${txtrst}
 unzip $QUIET $OTAPACKAGE
-echo
-
-# Move all apks to the same directory so xargs can
-# use also with framework-res.apk. This allow process
-# framework-res.apk in parallel with other apks
-mkdir -p $REPACK/parallel
-cd $REPACK/parallel
-cp $REPACK/ota/system/framework/framework-res.apk .
-cp $REPACK/ota/system/app/*.apk .
-for f in $REPACK/ota/system/priv-app/*.apk; do
-    cp $f ./priv-app-$(basename $f)
-done
-
-
-# Do optimization in parallel
+echo -e ""
+cd $REPACK/ota/system/framework
+$OPTICHARGER framework-res.apk
+cd $REPACK/ota/system/app
 find ./ -name \*.apk | $XARGS $OPTICHARGER
-
-# Move optimized apks to repack directory
-mv -f $REPACK/parallel/framework-res.apk $REPACK/ota/system/framework/framework-res.apk
-for f in $REPACK/parallel/priv-app*.apk; do
-    mv $f $REPACK/ota/system/priv-app/$(basename $f | cut -d'-' -f3)
-done
-mv -f $REPACK/parallel/*.apk $REPACK/ota/system/app/
-
-# Return to directory
-cd $REPACK/ota
-rm -rf $REPACK/parallel
+cd $REPACK/ota/system/priv-app
+find ./ -name \*.apk | $XARGS $OPTICHARGER
 )
 
 # Fix build.prop
 $SED -i \
-	-e '/ro\.kernel\.android\.checkjni/d' \
-	-e '/ro\.build\.type/s/eng/user/' \
-	$REPACK/ota/system/build.prop
+    -e '/ro\.kernel\.android\.checkjni/d' \
+    -e '/ro\.build\.type/s/eng/user/' \
+    $REPACK/ota/system/build.prop
 
 # Delete IOAP specific files
 if [ -f $ANDROID_BUILD_TOP/vendor/ioap/tools/squisher.rm ]; then
@@ -111,24 +90,32 @@ rm -rf $REPACK/ota/recovery
 
 # Strip modules
 [ -d $REPACK/ota/system/lib/modules ] && \
-	find $REPACK/ota/system/lib/modules -name "*.ko" -print0 | xargs -0 arm-eabi-strip --strip-unneeded
+    find $REPACK/ota/system/lib/modules -name "*.ko" -print0 | xargs -0 arm-eabi-strip --strip-unneeded
 
 # Determine what to name the new signed package
 if [ -z "$CYANOGEN_NIGHTLY" ]; then
-	CMVERSION=`grep 'ro.ioap.version=' $REPACK/ota/system/build.prop | sed -e 's/ro.ioap.version=//g'`
-	ABIGEN=`grep 'ro.product.cpu.abi=' $REPACK/ota/system/build.prop | sed -e 's/ro.product.cpu.abi=//g'`
-	OUTFILE=$OUT/$CMVERSION.zip
-	echo -e ""; echo -e "${bldylw}IOAP - by Infamous${txtrst}:${cya} $CMVERSION"${txtrst}; echo -e ""
+    IOAPVERSION=`grep 'ro.infamous.version=' $REPACK/ota/system/build.prop | sed -e 's/ro.infamous.version=//g'`
+    ABIGEN=`grep 'ro.product.cpu.abi=' $REPACK/ota/system/build.prop | sed -e 's/ro.product.cpu.abi=//g'`
+    OUTFILE=$OUT/$IOAPVERSION.zip
+    echo -e ""; echo -e "${bldylw}IOAP-VERSION${txtrst}:${cya} $IOAPVERSION"${txtrst}; echo -e ""
 else
-	OUTFILE=$OUT/update-squished.zip
+    OUTFILE=$OUT/update-squished.zip
 fi
 
-
-
 if [ -n $ABIGEN ]; then
-	echo ${cya}"Packing in Pre-Built Libs for CPU Variant:${ylw}$ABIGEN"${txtrst}
-	cp ${ANDROID_BUILD_TOP}/vendor/ioap/prebuilt/libs/$ABIGEN/libbypass.so $REPACK/ota/system/lib/libbypass.so
-	echo ""
+    echo ${cya}"Packing in Pre-Built Libs for CPU Variant:${ylw}$ABIGEN"${txtrst}
+    cp ${ANDROID_BUILD_TOP}/vendor/ioap/prebuilt/libs/$ABIGEN/libbypass.so $REPACK/ota/system/lib/libbypass.so
+    echo ""
+fi
+
+if [ "$TARGET_PRODUCT" = "ioap_hammerhead" ]; then
+    cp ${ANDROID_BUILD_TOP}/vendor/ioap/prebuilt/common/etc/audio_effects_hammerhead.conf $REPACK/ota/system/vendor/etc/audio_effects.conf
+elif [ "$TARGET_PRODUCT" = "ioap_flo" ]; then
+    cp ${ANDROID_BUILD_TOP}/vendor/ioap/prebuilt/common/etc/audio_effects_flo.conf $REPACK/ota/system/vendor/etc/audio_effects.conf
+elif [ "$TARGET_PRODUCT" = "ioap_mako" ]; then
+    cp ${ANDROID_BUILD_TOP}/vendor/ioap/prebuilt/common/etc/audio_effects_mako.conf $REPACK/ota/system/vendor/etc/audio_effects.conf
+else
+    cp ${ANDROID_BUILD_TOP}/packages/apps/DSPManager/cyanogen-dsp/audio_effects.conf $REPACK/ota/system/vendor/etc/audio_effects.conf
 fi
 
 # Pack it up and sign
@@ -137,9 +124,9 @@ echo -e ${grn}"Zipping package..."${txtrst}
 echo -e ${grn}"Signing package..."${txtrst}
 SECURITYDIR=$ANDROID_BUILD_TOP/build/target/product/security
 java -Xmx1024m \
-	-jar $OUTDIR/host/$OUT_TARGET_HOST/framework/signapk.jar \
-	-w $SECURITYDIR/testkey.x509.pem $SECURITYDIR/testkey.pk8 \
-	$REPACK/update.zip $OUTFILE
+    -jar $OUTDIR/host/$OUT_TARGET_HOST/framework/signapk.jar \
+    -w $SECURITYDIR/testkey.x509.pem $SECURITYDIR/testkey.pk8 \
+    $REPACK/update.zip $OUTFILE
 echo -e ${grn}"Cleaning up..."${txtrst}
 rm -rf $REPACK
 
@@ -150,16 +137,22 @@ cd `dirname $OUTFILE`
 $MD5 $img >$img.md5sum
 ZIPSIZE=`ls -lah $OUTFILE | awk '{ print $5}'`
 
-echo -e ${bldylw}""
-echo -e "       ________  ___    ____    "
-echo -e "      /  _/ __ \/   |  / __ \   "
-echo -e "      / // / / / /| | / /_/ /   "
-echo -e "    _/ // /_/ / ___ |/ ____/    "
-echo -e "   /___/\____/_/  |_/_/         "
-echo -e "                                "
-echo -e "            KitKat              "
-echo -e ""${txtrst}
-echo -e ""
+# Logo
+echo -e ${bldylw}"                                                              "${txtrst}
+echo -e ${bldylw}"        .___        _____                                     "${txtrst}
+echo -e ${bldylw}"        |   | _____/ ____\____    _____   ____  __ __  ______ "${txtrst}
+echo -e ${bldylw}"        |   |/    \   __ \\__  \  /     \ /  _ \|  |  \/  ___/"${txtrst}
+echo -e ${bldylw}"        |   |   |  \  |   / __ \|  Y Y  (  <_> )  |  /\___ \  "${txtrst}
+echo -e ${bldylw}"        |___|___|  /__|  (____  /__|_|  /\____/|____//____  > "${txtrst}
+echo -e ${bldylw}"                 \/           \/      \/                  \/  "${txtrst}
+echo -e ${bldylw}"                                                              "${txtrst}
+echo -e ${bldylw}"                  .___________      _____ __________          "${txtrst}
+echo -e ${bldylw}"                  |   \_____  \    /  _  \\______   \         "${txtrst}
+echo -e ${bldylw}"                  |   |/   |   \  /  /_\  \|     ___/         "${txtrst}
+echo -e ${bldylw}"                  |   /    |    \/    |    \    |             "${txtrst}
+echo -e ${bldylw}"                  |___\_______  /\____|__  /____|             "${txtrst}
+echo -e ${bldylw}"                              \/         \/                   "${txtrst}
+
 echo -e ""; echo -e ${bldgrn}"Package complete:"${txtrst}
 echo -e ${cya}"ZIP:${ylw}  $img"${txtrst}
 echo -e ${cya}"MD5: ${ylw} `cat $img.md5sum | awk '{print $1}'`"${txtrst}
