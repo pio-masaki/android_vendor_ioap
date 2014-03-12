@@ -147,7 +147,7 @@ echo -e ${bldylw}"        |___|___|  /__|  (____  /__|_|  /\____/|____//____  > 
 echo -e ${bldylw}"                 \/           \/      \/                  \/  "${txtrst}
 echo -e ${bldylw}"                                                              "${txtrst}
 echo -e ${bldylw}"                  .___________      _____ __________          "${txtrst}
-echo -e ${bldylw}"                  |   \_____  \    /  _  \\______    \         "${txtrst}
+echo -e ${bldylw}"                  |   \_____  \    /  _  \\______   \         "${txtrst}
 echo -e ${bldylw}"                  |   |/   |   \  /  /_\  \|     ___/         "${txtrst}
 echo -e ${bldylw}"                  |   /    |    \/    |    \    |             "${txtrst}
 echo -e ${bldylw}"                  |___\_______  /\____|__  /____|             "${txtrst}
