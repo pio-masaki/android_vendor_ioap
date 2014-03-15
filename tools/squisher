@@ -152,6 +152,9 @@ echo -e ${bldylw}"                  |   |/   |   \  /  /_\  \|     ___/         
 echo -e ${bldylw}"                  |   /    |    \/    |    \    |             "${txtrst}
 echo -e ${bldylw}"                  |___\_______  /\____|__  /____|             "${txtrst}
 echo -e ${bldylw}"                              \/         \/                   "${txtrst}
+echo -e ${bldylw}"                                                              "${txtrst}
+echo -e ${bldylw}"                                                              "${txtrst}
+echo -e ${bldylw}"         IOKP/IOAP by Jamison904 & mrimp                      "${txtrst}
 
 echo -e ""; echo -e ${bldgrn}"Package complete:"${txtrst}
 echo -e ${cya}"ZIP:${ylw}  $img"${txtrst}
