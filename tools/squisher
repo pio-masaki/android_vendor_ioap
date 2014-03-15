@@ -147,12 +147,11 @@ echo -e ${bldylw}"        |___|___|  /__|  (____  /__|_|  /\____/|____//____  > 
 echo -e ${bldylw}"                 \/           \/      \/                  \/  "${txtrst}
 echo -e ${bldylw}"                                                              "${txtrst}
 echo -e ${bldylw}"                  .___________      _____ __________          "${txtrst}
-echo -e ${bldylw}"                  |   \_____  \    /  _  \\______   \         "${txtrst}
+echo -e ${bldylw}"                  |   \_____  \    /  _  \\______    \        "${txtrst}
 echo -e ${bldylw}"                  |   |/   |   \  /  /_\  \|     ___/         "${txtrst}
 echo -e ${bldylw}"                  |   /    |    \/    |    \    |             "${txtrst}
 echo -e ${bldylw}"                  |___\_______  /\____|__  /____|             "${txtrst}
 echo -e ${bldylw}"                              \/         \/                   "${txtrst}
-echo -e ${bldylw}"                                                              "${txtrst}
 echo -e ${bldylw}"                                                              "${txtrst}
 echo -e ${bldylw}"         IOKP/IOAP by Jamison904 & mrimp                      "${txtrst}
 
@@ -162,7 +161,6 @@ echo -e ${cya}"MD5: ${ylw} `cat $img.md5sum | awk '{print $1}'`"${txtrst}
 echo -e ${cya}"SIZE:${ylw} $ZIPSIZE"${txtrst}
 MD5VAL=`cat $img.md5sum  | awk '{ print $1 }'`
 DEVICE=`echo -e $TARGET_PRODUCT | cut -d "_" -f 2`
-echo -e ""
 )
 
 exit 0
