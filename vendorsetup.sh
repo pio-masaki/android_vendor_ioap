@@ -14,6 +14,7 @@ add_lunch_combo ioap_endeavoru-userdebug
 add_lunch_combo ioap_enrc2b-userdebug
 add_lunch_combo ioap_evita-userdebug
 add_lunch_combo ioap_glacier-userdebug
+add_lunch_combo ioap_holiday-userdebug
 add_lunch_combo ioap_jewel-userdebug
 add_lunch_combo ioap_m7-userdebug
 add_lunch_combo ioap_m7spr-userdebug
@@ -129,6 +130,7 @@ add_lunch_combo ioap_ypg1-userdebug
 add_lunch_combo ioap_honami-userdebug
 add_lunch_combo ioap_huashan-userdebug
 add_lunch_combo ioap_mint-userdebug
+add_lunch_combo ioap_nicki-userdebug
 add_lunch_combo ioap_odin-userdebug
 add_lunch_combo ioap_pollux-userdebug
 add_lunch_combo ioap_pollux_windy-userdebug
