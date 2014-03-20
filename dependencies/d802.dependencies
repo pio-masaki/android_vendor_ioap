@@ -11,12 +11,6 @@
    "target_path": "device/lge/g2-common",
    "revision": "cm-11.0"
  },
-{
-   "account": "CyanogenMod",
-    "repository": "android_device_qcom_common",
-    "target_path": "device/qcom/common",
-    "revision": "cm-11.0"
- },
  {
    "account": "CyanogenMod",
    "repository": "android_kernel_lge_msm8974",

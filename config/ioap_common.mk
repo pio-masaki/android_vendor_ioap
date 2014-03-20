@@ -57,8 +57,12 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     OmniSwitch
 
-# Overlays
-PRODUCT_PACKAGE_OVERLAYS += vendor/ioap/overlay/ioap/common
+# PAC Packages
+PRODUCT_PACKAGES += \
+    PACPerformance \
+
+# PAC Overlays
+PRODUCT_PACKAGE_OVERLAYS += vendor/pac/overlay/pac/common
 
 # Copy over the changelog to the device
 PRODUCT_COPY_FILES += \
