@@ -60,6 +60,7 @@ PRODUCT_PACKAGES += \
 # PAC Packages
 PRODUCT_PACKAGES += \
     PACPerformance \
+    GPSOptimizer
 
 # PAC Overlays
 PRODUCT_PACKAGE_OVERLAYS += vendor/pac/overlay/pac/common
