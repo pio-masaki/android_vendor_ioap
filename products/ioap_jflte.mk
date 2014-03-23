@@ -6,7 +6,7 @@ OVERLAY_TARGET := pa_xxhdpi
 
 #  
 PRODUCT_COPY_FILES += \
-    vendor/ioap/prebuilt/common/bootlogo/pac_logo_1080x1920.rle:root/logo.rle
+    vendor/ioap/prebuilt/common/bootlogo/ioap_logo_1080x1920.rle:root/logo.rle
 
 # Copy bootanimation
 PRODUCT_COPY_FILES += \
