@@ -1,16 +1,23 @@
 [
     {
         "remote":       "github",
-        "account":      "CyanogenMod",
+        "account":      "Arc-Team",
         "repository":   "android_device_htc_evita",
         "target_path":  "device/htc/evita",
+        "revision":     "pac-4.4"
+    },
+    {
+        "remote":       "github",
+        "account":      "Arc-Team",
+        "repository":   "android_kernel_htc_evita",
+        "target_path":  "kernel/htc/evita",
         "revision":     "cm-11.0"
     },
     {
         "remote":       "github",
         "account":      "CyanogenMod",
-        "repository":   "android_device_htc_msm8960-common",
-        "target_path":  "device/htc/msm8960-common",
+        "repository":   "android_device_qcom_common",
+        "target_path":  "device/qcom/common",
         "revision":     "cm-11.0"
     },
     {
@@ -22,9 +29,9 @@
     },
     {
         "remote":       "github",
-        "account":      "CyanogenMod",
-        "repository":   "android_kernel_htc_msm8960",
-        "target_path":  "kernel/htc/msm8960",
+        "account":      "PAC-HTC",
+        "repository":   "android_device_htc_msm8960-common",
+        "target_path":  "device/htc/msm8960-common",
         "revision":     "cm-11.0"
     },
     {
