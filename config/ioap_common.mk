@@ -55,13 +55,8 @@ PRODUCT_COPY_FILES += \
 
 # OmniRom Packages
 PRODUCT_PACKAGES += \
+    PerformanceControl \
     OmniSwitch
-
-# PAC Packages
-PRODUCT_PACKAGES += \
-    PACPerformance \
-    DeviceControl \
-    GPSOptimizer
 
 # PAC Overlays
 PRODUCT_PACKAGE_OVERLAYS += vendor/pac/overlay/pac/common
