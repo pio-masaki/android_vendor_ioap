@@ -25,7 +25,7 @@
     "account": "IOAP",
     "repository": "android_kernel_samsung_jf",
     "target_path": "kernel/samsung/jf",
-    "revision": "cm-11.0"
+    "revision": "kitkat"
  },
  {
     "remote": "github",
