@@ -19,6 +19,7 @@ add_lunch_combo ioap_jewel-userdebug
 add_lunch_combo ioap_m7-userdebug
 add_lunch_combo ioap_m7spr-userdebug
 add_lunch_combo ioap_m7vzw-userdebug
+add_lunch_combo ioap_m8-userbebug
 add_lunch_combo ioap_pyramid-userdebug
 add_lunch_combo ioap_ruby-userdebug
 add_lunch_combo ioap_ville-userdebug
